@@ -5,7 +5,9 @@ import routes from './routes';
 import store from './store';
 import MyNavComponent from './components/MyNavComponent';
 
+
 Vue.use( VueRouter );
+
 
 const router = new VueRouter({
 	routes,
@@ -17,7 +19,6 @@ const app = new Vue({
 		'my-nav' : MyNavComponent,
 	},
 	router,
-
 	mounted(){
 		axios({
 			method: 'get',
@@ -26,6 +27,6 @@ const app = new Vue({
 			console.log(res);
 		}).catch(function(err){
 			console.log(err);
-		})
-	}
+		});
+	},
 }).$mount('#app')

@@ -20,6 +20,9 @@
     "vue-router": "^2.6.0"
   },
   "dependencies": {
+    "voo-i18n": "^1.0.10",
+    "vue-cookie": "^1.1.4",
+    "vue-multilanguage": "^2.0.2",
     "vuex": "^2.3.1"
   }
 }
