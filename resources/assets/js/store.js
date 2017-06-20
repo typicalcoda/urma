@@ -6,7 +6,19 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 
-	collections: []
+		collections: [
+		// {
+		// 	name: 'Student',
+		// 	tableName: 'tbl_student',
+		// 	fields: [
+		// 	{ fieldName: 'First name', dataType: 'string' },
+		// 	{ fieldName: 'Last name', dataType: 'string' },
+		// 	{ fieldName: 'Age', dataType: 'number' },
+		// 	{ fieldName: 'Email', dataType: 'email' },
+		// 	]
+		// }
+
+		]
 
 	},
 	getters: {

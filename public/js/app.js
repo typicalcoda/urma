@@ -1087,7 +1087,19 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
 	state: {
 
-		collections: []
+		collections: [
+			// {
+			// 	name: 'Student',
+			// 	tableName: 'tbl_student',
+			// 	fields: [
+			// 	{ fieldName: 'First name', dataType: 'string' },
+			// 	{ fieldName: 'Last name', dataType: 'string' },
+			// 	{ fieldName: 'Age', dataType: 'number' },
+			// 	{ fieldName: 'Email', dataType: 'email' },
+			// 	]
+			// }
+
+		]
 
 	},
 	getters: {
@@ -11792,6 +11804,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -11806,6 +11831,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	data: function data() {
 		return {
 			title: 'Collections',
+			form: {
+				collectionName: 'Test',
+				collectionTableName: 'tbl_Test',
+				fields: [{ fieldName: 'Name', dataType: 'string', active: false }, { fieldName: 'Age', dataType: 'number', active: false }]
+			},
 			formShown: true
 
 		};
@@ -11816,7 +11846,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			this.formShown = true;
 			alert(formShown);
-		}
+		},
+		addNewField: function addNewField() {
+			var empty = { fieldName: 'New Field', dataType: '[select type]', active: true };
+			this.form.fields.push(empty);
+		},
+		createCollection: function createCollection() {}
 	}
 
 });
@@ -42229,9 +42264,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "for": "collection_name"
     }
   }, [_vm._v("Collection Name")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.collectionName),
+      expression: "form.collectionName"
+    }],
+    staticClass: "input",
     attrs: {
       "id": "collection_name",
       "type": "text"
+    },
+    domProps: {
+      "value": (_vm.form.collectionName)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.form.collectionName = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('div', {
     staticClass: "input"
@@ -42240,15 +42291,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "for": "table_name"
     }
   }, [_vm._v("Table Name")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.collectionTableName),
+      expression: "form.collectionTableName"
+    }],
+    staticClass: "input",
     attrs: {
       "id": "table_name",
       "type": "text"
+    },
+    domProps: {
+      "value": (_vm.form.collectionTableName)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.form.collectionTableName = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('button', {
-    staticClass: "btn-green"
+    staticClass: "btn-green",
+    on: {
+      "click": _vm.createCollection
+    }
   }, [_vm._v("Create collection")]), _vm._v(" "), _c('p', {
     staticClass: "notice"
-  }, [_vm._v("Collections are data-models of real-world information that could be stored. For example, a "), _c('span', {
+  }, [_vm._v("Collections are data-models of real-world information that can be stored. For example, a "), _c('span', {
     staticClass: "tag-pressed"
   }, [_vm._v("Student")]), _vm._v(" collection consisting of multiple fields such as name, class, email, date of birth, and so on.")]), _vm._v(" "), _c('p', {
     staticClass: "notice"
@@ -42260,7 +42330,60 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-md-6"
   }, [_c('div', {
     staticClass: "col shadow"
-  }, [_c('label', [_vm._v("Fields")]), _vm._v(" "), _c('table', [_c('thead', [_c('th', [_vm._v("Field Name")]), _vm._v(" "), _c('th', [_vm._v("Field Type")]), _vm._v(" "), _c('th', [_vm._v("Options")])])])])])])]) : _c('div', [_c('div', {
+  }, [_c('label', [_vm._v("Fields")]), _vm._v(" "), _c('table', [_c('thead', [_c('th', [_vm._v("Field Name")]), _vm._v(" "), _c('th', [_vm._v("Field Type")]), _vm._v(" "), _c('th', [_vm._v("Options")])]), _vm._v(" "), _c('tbody', _vm._l((_vm.form.fields), function(field) {
+    return _c('tr', [_c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.fieldName),
+        expression: "field.fieldName"
+      }],
+      staticClass: "editable",
+      attrs: {
+        "type": "text",
+        "disabled": !field.active
+      },
+      domProps: {
+        "value": (field.fieldName)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          field.fieldName = $event.target.value
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (field.dataType),
+        expression: "field.dataType"
+      }],
+      staticClass: "editable",
+      attrs: {
+        "type": "text",
+        "disabled": !field.active
+      },
+      domProps: {
+        "value": (field.dataType)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          field.dataType = $event.target.value
+        }
+      }
+    })]), _vm._v(" "), _c('td', [_c('i', {
+      staticClass: "fa fa-edit"
+    }), _c('i', {
+      staticClass: "fa fa-remove"
+    })])])
+  }))]), _vm._v(" "), _c('button', {
+    staticClass: "fa btn-circle plus",
+    on: {
+      "click": _vm.addNewField
+    }
+  })])])])]) : _c('div', [_c('div', {
     staticClass: "blockquote shadow noselect"
   }, [_c('p', [_vm._v("There are currently no collections, would you like to create one?")]), _vm._v(" "), _c('button', {
     staticClass: "btn-green mg-top-25",

@@ -18,16 +18,16 @@
 
 						<div class="input">
 							<label for="collection_name">Collection Name</label>
-							<input id="collection_name" type="text">
+							<input id="collection_name" type="text" class="input" v-model="form.collectionName">
 						</div>
 
 						<div class="input">
 							<label for="table_name">Table Name</label>
-							<input id="table_name" type="text">
+							<input id="table_name" type="text" class="input" v-model="form.collectionTableName">
 						</div>
-						<button class="btn-green">Create collection</button>
+						<button @click="createCollection" class="btn-green">Create collection</button>
 
-						<p class="notice">Collections are data-models of real-world information that could be stored. For example, a <span class="tag-pressed">Student</span> collection consisting of multiple fields such as name, class, email, date of birth, and so on.</p>
+						<p class="notice">Collections are data-models of real-world information that can be stored. For example, a <span class="tag-pressed">Student</span> collection consisting of multiple fields such as name, class, email, date of birth, and so on.</p>
 						<p class="notice">This collection would then be accessible as a model, which makes it possible to insert records based off that very model's structure, as mapped out in this interface. </p>
 
 						<br>Read more in the <a href="#">docs</a></p>
@@ -44,12 +44,25 @@
 								<th>Options</th>
 							</thead>
 
-	
-							<!-- <tbody>
-								<tr><td>kappa </td><td>bronco</td> <td><i class="fa fa-edit"></i><i class="fa fa-remove"></i></td></tr>
-								<tr><td>kappa </td><td>bronco</td> <td></td></tr>
-							</tbody> -->
+
+							<tbody>
+								<tr v-for="field in form.fields">	
+									<td>
+										<input type="text" class="editable" v-model="field.fieldName" :disabled="!field.active">
+									</td>
+									<td>
+										<input type="text" class="editable" v-model="field.dataType" :disabled="!field.active">
+									</td>
+
+									<td>
+										<i class="fa fa-edit"></i><i class="fa fa-remove"></i>
+									</td>
+								</tr>
+
+							</tbody>
 						</table>
+
+						<button @click="addNewField" class="fa btn-circle plus"></button>
 
 					</div>
 				</div>
@@ -79,6 +92,14 @@
 		data(){
 			return{ 
 				title: 'Collections',
+				form: {
+					collectionName: 'Test',
+					collectionTableName: 'tbl_Test',
+					fields: [
+					{fieldName: 'Name', dataType: 'string', active:false},
+					{fieldName: 'Age', dataType: 'number', active:false},
+					]
+				},
 				formShown: true,
 
 			}
@@ -88,6 +109,13 @@
 
 				this.formShown = true;
 				alert(formShown);
+			},
+			addNewField(){
+				let empty = {fieldName: 'New Field', dataType: '[select type]', active:true};
+				this.form.fields.push(empty);
+			},
+			createCollection(){
+
 			}
 		}
 

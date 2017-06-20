@@ -36,6 +36,22 @@ button{
 	&:hover{
 		cursor:pointer;
 	}
+	&.btn-circle{
+		&.plus::before {
+			content: "\f067";
+		}
+		&.btn-circle {
+			border: 1px solid #BAE7FD;
+			border-radius: 50%;
+			background: inherit;
+			color: #8ec2dc;
+			height: 35px;
+			width: 35px;
+			&:hover{
+				background:#BAE7FD;
+			}
+		}
+	}
 	&.btn-green{
 		border: 1px solid #8fcec1;
 		color: #ffffff;
@@ -88,14 +104,27 @@ button{
 				padding:0 8px;
 			}
 			input[type=text]{
-				display: block;
-				width: 100%;
-				margin: 10px 0;
-				padding: 10px;
-				outline: 0;
-				border: 1px solid #efefef;
-				background: #f9f9f9;
-				color: #8c8c8c;
+				&.input{
+					display: block;
+					width: 100%;
+					margin: 10px 0;
+					padding: 10px;
+					outline: 0;
+					border: 1px solid #efefef;
+					background: #f9f9f9;
+					color: #8c8c8c;
+				}
+				&.editable{
+					border:0 none;
+					outline:0;
+					font-family:inherit;
+					color:#000;
+					background:#ececec;
+					transition:.4s;
+				}
+				&.editable:disabled{
+					background:inherit;
+				}
 			}
 		}
 	}
