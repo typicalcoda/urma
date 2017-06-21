@@ -1,2 +1,13 @@
 step away from what you.re .. from your imaginations and then... zzz
 button borders -> darkened 6% http://www.hexcolortool.com/
+
+20/06/2017
+✔ Change bg color off active field
+✔ Change icons on the right to save/cancel/submit depending on what state the active field is in
+✔ Change data type to drop down
+
+21/06/2017
+- Sanitize the input fields to ensure they contain numbers and letters (underscore allowed) only!
+- Creation of the field (in the actual database, think about the potential relationships, and what further info may need to be stored)
+- Real-time validation on left-hand-side fields
+- Left-hand-side form shouldn't say "create collection" if it already exists

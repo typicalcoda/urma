@@ -5,7 +5,16 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-
+		dataTypes : [
+		'string',
+		'number',
+		'email',
+		'date',
+		'password',
+		'telephone',
+		'address',
+		'text'
+		],
 		collections: [
 		// {
 		// 	name: 'Student',
@@ -24,6 +33,9 @@ export default new Vuex.Store({
 	getters: {
 		collections(state) {
 			return state.collections;
+		},
+		dataTypes(state){
+			return state.dataTypes;
 		}
 	},
 	mutations: {

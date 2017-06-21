@@ -39,23 +39,29 @@
 
 						<table>
 							<thead>
-								<th>Field Name</th>
-								<th>Field Type</th>
-								<th>Options</th>
+								<th width="40%">Field Name</th>
+								<th width="30%">Field Type</th>
+								<th width="30%">Options</th>
 							</thead>
 
 
 							<tbody>
-								<tr v-for="field in form.fields">	
+								<tr v-for="field in form.fields" :class="{ active : field.active}">	
 									<td>
 										<input type="text" class="editable" v-model="field.fieldName" :disabled="!field.active">
 									</td>
 									<td>
-										<input type="text" class="editable" v-model="field.dataType" :disabled="!field.active">
+										<div class="dropdown-mask">
+											<select v-model="field.dataType" class="editable" :disabled="!field.active">
+												<option value="[select type]">[select type]</option>
+												<option v-for="dataType in store.getters.dataTypes" :value="dataType">{{dataType}}</option>
+											</select>
+										</div>
 									</td>
 
 									<td>
-										<i class="fa fa-edit"></i><i class="fa fa-remove"></i>
+										<i @click="submitField" class="fa" :class="field.active ? 'fa-check' : 'fa-edit'"></i>
+										<i class="fa" :class="field.active ? 'fa-times' : 'fa-trash'"></i>
 									</td>
 								</tr>
 
@@ -111,8 +117,31 @@
 				alert(formShown);
 			},
 			addNewField(){
+				this.form.fields.forEach(f=> f.active = false);
 				let empty = {fieldName: 'New Field', dataType: '[select type]', active:true};
 				this.form.fields.push(empty);
+			},
+			submitField(){
+				this.form.fields.forEach(f => {
+					if(f.active)
+					{
+						//check if data is valid enough 
+						if(f.fieldName.length && (f.dataType.length && f.dataType != '[select type]')){
+							
+							// then check for duplications
+							this.form.fields.filter(f => !f.active).forEach(field => {
+								if(field.fieldName.toLowerCase() == f.fieldName.toLowerCase())
+									alert("A field with this name already exists!");
+							});
+
+
+							
+						} else {
+							alert("Please select an appropriate field name and data type");
+						}
+					}
+				});
+
 			},
 			createCollection(){
 
@@ -128,11 +157,10 @@
 		width:100%; margin:10px 0;
 		border-spacing: 0;
 		thead{background:red;background: #e7edf3;font-size: 11px;}
-		thead th { text-align:left; padding: 8px 6px;}
-		tbody td { padding: 8px 6px; }
-		tbody tr:nth-child(odd) {
-			background: #f9f9f9;
-		}
+		thead th { text-align:left; padding: 8px 6px; &:last-of-type{ text-align:center; } }
+		tbody td { padding: 8px 6px; &:last-of-type{ text-align:center; } }
+		tbody tr:nth-child(odd) { background: #f9f9f9; }
+		tbody tr.active { background:#fff1c6 !important }
 		tbody td:last-of-type{
 			i{
 				padding: 2px;
