@@ -2,7 +2,8 @@
 	<div>
 		
 		<div class="page-header">
-			<i class="fa fa-cube"></i>{{title}}
+			<i class="fa fa-cube"></i>
+			{{title}}
 		</div>
 		
 		<div v-if="collections.length">
@@ -67,9 +68,8 @@
 
 							</tbody>
 						</table>
-
+						<errors :errors="errors"></errors>
 						<button @click="addNewField" class="fa btn-circle plus"></button>
-
 					</div>
 				</div>
 			</div>
@@ -86,14 +86,10 @@
 
 <script>
 	import store from '../store.js'
+	import ErrorsComponent from './ErrorsComponent'
 	export default {
-		computed: {
-			collections(){
-				return store.getters.collections;
-			},
-			store(){
-				return store;
-			}
+		components: {
+			'errors' : ErrorsComponent
 		},
 		data(){
 			return{ 
@@ -107,7 +103,15 @@
 					]
 				},
 				formShown: true,
-
+				errors: [],
+			}
+		},
+		computed: {
+			collections(){
+				return store.getters.collections;
+			},
+			store(){
+				return store;
 			}
 		},
 		methods:{
@@ -131,13 +135,13 @@
 							// then check for duplications
 							this.form.fields.filter(f => !f.active).forEach(field => {
 								if(field.fieldName.toLowerCase() == f.fieldName.toLowerCase())
-									alert("A field with this name already exists!");
+									this.errors.push("A field with this name already exists!");
 							});
 
 
 							
 						} else {
-							alert("Please select an appropriate field name and data type");
+							this.errors.push("Please select an appropriate field name and data type");
 						}
 					}
 				});
