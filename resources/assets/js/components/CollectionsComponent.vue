@@ -68,7 +68,7 @@
 
 							</tbody>
 						</table>
-						<errors :errors="errors"></errors>
+						<errors :error="error">{{error}}</errors>
 						<button @click="addNewField" class="fa btn-circle plus"></button>
 					</div>
 				</div>
@@ -102,8 +102,8 @@
 					{fieldName: 'Age', dataType: 'number', active:false},
 					]
 				},
+				error: '',
 				formShown: true,
-				errors: [],
 			}
 		},
 		computed: {
@@ -135,13 +135,13 @@
 							// then check for duplications
 							this.form.fields.filter(f => !f.active).forEach(field => {
 								if(field.fieldName.toLowerCase() == f.fieldName.toLowerCase())
-									this.errors.push("A field with this name already exists!");
-							});
+										this.error = "A field with this name already exists!";
+								});
 
 
 							
 						} else {
-							this.errors.push("Please select an appropriate field name and data type");
+								this.error = "Please select an appropriate field name and data type";
 						}
 					}
 				});
