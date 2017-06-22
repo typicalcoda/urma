@@ -5,7 +5,6 @@ import routes from './routes';
 import store from './store';
 import MyNavComponent from './components/MyNavComponent';
 
-
 Vue.use( VueRouter );
 
 

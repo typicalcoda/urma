@@ -49,11 +49,11 @@
 							<tbody>
 								<tr v-for="field in form.fields" :class="{ active : field.active}">	
 									<td>
-										<input type="text" class="editable" v-model="field.fieldName" :disabled="!field.active">
+										<input type="text" class="editable" @changed="verifyField" v-model="field.fieldName" :disabled="!field.active">
 									</td>
 									<td>
 										<div class="dropdown-mask">
-											<select v-model="field.dataType" class="editable" :disabled="!field.active">
+											<select v-model="field.dataType" @changed="verifyField" class="editable" :disabled="!field.active">
 												<option value="[select type]">[select type]</option>
 												<option v-for="dataType in store.getters.dataTypes" :value="dataType">{{dataType}}</option>
 											</select>
@@ -61,14 +61,17 @@
 									</td>
 
 									<td>
-										<i @click="submitField" class="fa" :class="field.active ? 'fa-check' : 'fa-edit'"></i>
+										<i class="fa" :class="field.active ? 'fa-check' : 'fa-edit'"></i>
 										<i class="fa" :class="field.active ? 'fa-times' : 'fa-trash'"></i>
 									</td>
 								</tr>
-
 							</tbody>
 						</table>
-						<errors :error="error">{{error}}</errors>
+
+						<div class="errors">
+							
+						</div>
+
 						<button @click="addNewField" class="fa btn-circle plus"></button>
 					</div>
 				</div>
@@ -86,10 +89,9 @@
 
 <script>
 	import store from '../store.js'
-	import ErrorsComponent from './ErrorsComponent'
 	export default {
 		components: {
-			'errors' : ErrorsComponent
+			
 		},
 		data(){
 			return{ 
@@ -102,7 +104,6 @@
 					{fieldName: 'Age', dataType: 'number', active:false},
 					]
 				},
-				error: '',
 				formShown: true,
 			}
 		},
@@ -116,7 +117,6 @@
 		},
 		methods:{
 			showCreateCollectionForm(){
-
 				this.formShown = true;
 				alert(formShown);
 			},
@@ -125,23 +125,27 @@
 				let empty = {fieldName: 'New Field', dataType: '[select type]', active:true};
 				this.form.fields.push(empty);
 			},
-			submitField(){
+			verifyField(){
 				this.form.fields.forEach(f => {
 					if(f.active)
 					{
 						//check if data is valid enough 
 						if(f.fieldName.length && (f.dataType.length && f.dataType != '[select type]')){
 							
-							// then check for duplications
+							// then check for duplicates
 							this.form.fields.filter(f => !f.active).forEach(field => {
 								if(field.fieldName.toLowerCase() == f.fieldName.toLowerCase())
-										this.error = "A field with this name already exists!";
-								});
+									this.errorCode = 1;
+								else { 
+									this.errorCode = 0;
+
+								}
+							});
 
 
 							
 						} else {
-								this.error = "Please select an appropriate field name and data type";
+							this.errorCode = 2;
 						}
 					}
 				});
@@ -157,6 +161,37 @@
 </script>
 
 <style lang="scss" scoped>
+	.errors{
+		float: right;
+		width: 100%;
+		margin: 5px 0;
+		background: #fcecec;
+		border: 1px solid #f8e2e2;
+		padding: 10px;
+		color: #ba7979;
+		&:last-of-type{
+			margin-bottom:20px;
+		}
+		i{
+			float: left;
+			line-height: 1.5em;
+			padding: 0 10px;
+			&:hover{
+				cursor:pointer;
+			}
+		}
+	}
+
+	.fade-transition{
+		transition: all .5s ease;
+	}
+	.fade-enter{
+		opacity:0;
+	}
+	.fade-leave{
+		height:0;
+		opacity:0;
+	}
 	table{
 		width:100%; margin:10px 0;
 		border-spacing: 0;
